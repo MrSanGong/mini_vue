@@ -20,12 +20,16 @@ class Observer {
   }
   defineReactive(data, key, value) {
     let that = this
+    // 负责收集依赖并发送通知
+    let dep = new Dep()
     // 遍历data选项中的对象添加响应式数据
     this.walk(value)
     Object.defineProperty(data, key, {
       configurable: true,
       enumerable: true,
       get() {
+        // 收集依赖
+        Dep.target && dep.addSub(Dep.target)
         return value
       },
       set(newVal) {
@@ -33,8 +37,8 @@ class Observer {
         value = newVal
         // 给新赋值的对象添加响应式数据
         that.walk(value)
-
         // 发送通知
+        dep.notify()
       }
     })
   }
