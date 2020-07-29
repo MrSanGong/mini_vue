@@ -7,10 +7,19 @@
 </head>
 <body>
   <div id="app">
-    hello world
+    <h1>差值表达式</h1>
+    <h3>{{ msg }}</h3>
+    <h3>{{ count }}</h3>
+    <h1>v-text</h1>
+    <h3 v-text="msg"></h3>
+    <h3 v-text="count"></h3>
+    <h1>v-model</h1>
+    <input type="text" v-model="msg">
+    <input type="text" v-model="count">
   </div>
 </body>
 </html>
+<script src="./src/complier.js"></script>
 <script src="./src/observer.js"></script>
 <script src="./src/vue.js"></script>
 <script>
