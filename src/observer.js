@@ -4,8 +4,8 @@
  *  data中的某个属性也是对象，把该属性转换成响应式数据
  *  数据变化发送通知
  * 结构
- *  walk(data){} 判断data是不是对象，遍历data中的所有属性
- *  defineReactive(data, key, value)
+ *  + walk(data) 判断data是不是对象，遍历data中的所有属性
+ *  + defineReactive(data, key, value)
 */
 
 class Observer {

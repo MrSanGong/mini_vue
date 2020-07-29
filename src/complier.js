@@ -4,11 +4,11 @@
  *  负责页面的首次渲染
  *  当数据变化后重新渲染视图
  * 结构
- *  el
- *  vm
- *  compile(el)
- *  compileElement(node)
- *  compileText(node)
+ *  + el
+ *  + vm
+ *  + compile(el)
+ *  + compileElement(node)
+ *  + compileText(node)
  * 
  */
 class Compiler {
