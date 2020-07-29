@@ -40,7 +40,6 @@ class Compiler {
     // 遍历所有元素节点
     Array.from(node.attributes).forEach(attr => {
       // 判断该属性是不是指令
-      console.dir(attr)
       let attrName = attr.name
       if (this.isDirective(attrName)) {
         // 解析v-text和v-model
@@ -52,15 +51,25 @@ class Compiler {
   }
   update(node, key, attrName) {
     let updateFn = this[attrName + 'Update']
-    updateFn && updateFn(node, this.vm[key])
+    updateFn && updateFn.call(this, node, this.vm[key], key)
   }
   // 解析v-text
-  textUpdate(node, value) {
+  textUpdate(node, value, key) {
     node.textContent = value
+    new Watcher(this.vm, key, (newValue) => {
+      node.textContent = newValue
+    })
   }
   // 解析v-model
-  modelUpdate(node, value) {
+  modelUpdate(node, value, key) {
     node.value = value
+    new Watcher(this.vm, key, (newValue) => {
+      node.value = newValue
+    })
+    // 双向绑定
+    node.addEventListener('input', () => {
+      this.vm[key] = node.value
+    })
   }
   // 编译文本节点， 处理差值表达式
   compileText(node) {
@@ -69,6 +78,9 @@ class Compiler {
     if (reg.test(value)) {
       let key = RegExp.$1.trim()
       node.textContent = value.replace(reg, this.vm[key])
+      new Watcher(this.vm, key, (newValue) => {
+        node.textContent = newValue
+      })
     }
   }
   // 判断当前属性是不是指令
